@@ -75,8 +75,7 @@ app.get('/manager/employees/add', function(req, res) {
 // inserting values from form into database
 app.post('/manager/employees/add', function(req, res) {
   
-  let query = "INSERT INTO Employees (EmployeeID, Name, CurrentPosition) VALUES ( '" +
-              req.body.employeeId + "', '" +
+  let query = "INSERT INTO Employees (Name, CurrentPosition) VALUES ( '" +
               req.body.employeeName + "', '" +
               req.body.employeePosition + "')";
   
@@ -103,7 +102,6 @@ app.get('/manager/employees/edit/:employee_id', function(req, res) {
 app.post('/manager/employees/edit/:employee_id', function(req, res) {
   
   let query = "UPDATE Employees SET " +
-              "EmployeeID = '" + req.body.employeeId + "', " +
               "Name = '" + req.body.employeeName + "', " +
               "CurrentPosition = '" + req.body.employeePosition + "' " +
               "WHERE Employees.EmployeeID = " + req.body.employeeId;
