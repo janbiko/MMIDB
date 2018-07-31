@@ -1,40 +1,68 @@
 <% include ../partials/header %>
+  <div class="container-fluid">
+    <div class="row">
+      <% include ../partials/sidenav-top %>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:3000/">
+            <i class="fas fa-home"></i> Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/employee">
+            <i class="fas fa-users"></i> Employee Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="">
+              <i class="fas fa-users"></i> Edit Employee</a>
+          </li>
+        <% include ../partials/sidenav-bottom %>
 
-<div class="row" style="margin-left: 30px; margin-right: 30px">
-  <form action="http://localhost:3000/manager/employees/edit/<%= item[0].EmployeeID %>" method="post" class="col s12">
-    <!--<input type="hidden" name="employeeId" value="">-->
-    
-    
-    <div class="">
-      <label for="employeeId" class="col-2 col-form-label"><b>Id</b></label>
-      <div class="col-10">
-        <input type="number" name="employeeId" value="<%= item[0].EmployeeID %>" class="form-control">
-      </div>
-    </div>
-    
-    <div class="">
-      <label for="employeeName" class="col-2 col-form-label"><b>Name</b></label>
-      <div class="col-10">
-        <input type="text" name="employeeName" value="<%= item[0].Name %>" class="form-control">
-      </div>
-    </div>
-    
-    <div class="">
-      <label for="employeePosition" class="col-2 col-form-label"><b>Employee's position</b></label>
-      <div class="col-10">
-        <input type="text" name="employeePosition" value="<%= item[0].CurrentPosition %>" class="form-control">
-      </div>
-    </div>
-  
-    <div class="form-group row" style="margin-top: 20px; margin-left: 0px">
-      <div class="col-10">
-        <input type="submit" name="submit" value="Save Employee" class="btn btn-primary btn-lg"
-      </div>
-    </div>
-    
-  </form>
 
-</div>
+          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Edit Employee</h1>
+            </div>
 
- 
-<% include ../partials/footer %>
+            <div class="row" style="margin-left: 30px; margin-right: 30px">
+              <form action="http://localhost:3000/manager/employees/edit/<%= item[0].EmployeeID %>" method="post" class="col s12">
+                <!--<input type="hidden" name="employeeId" value="">-->
+
+
+                <div class="">
+                  <label for="employeeId" class="col-2 col-form-label">
+                    <b>Id</b>
+                  </label>
+                  <div class="col-10">
+                    <input type="number" name="employeeId" value="<%= item[0].EmployeeID %>" class="form-control">
+                  </div>
+                </div>
+
+                <div class="">
+                  <label for="employeeName" class="col-2 col-form-label">
+                    <b>Name</b>
+                  </label>
+                  <div class="col-10">
+                    <input type="text" name="employeeName" value="<%= item[0].Name %>" class="form-control">
+                  </div>
+                </div>
+
+                <div class="">
+                  <label for="employeePosition" class="col-2 col-form-label">
+                    <b>Employee's position</b>
+                  </label>
+                  <div class="col-10">
+                    <input type="text" name="employeePosition" value="<%= item[0].CurrentPosition %>" class="form-control">
+                  </div>
+                </div>
+
+                <div class="form-group row" style="margin-top: 20px; margin-left: 0px">
+                  <div class="col-10">
+                    <input type="submit" name="submit" value="Save Employee" class="btn btn-primary btn-lg" </div>
+                  </div>
+
+              </form>
+
+              </div>
+          </main>
+
+
+          <% include ../partials/footer %>

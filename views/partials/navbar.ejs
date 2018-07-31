@@ -1,7 +1,5 @@
-<nav class="navbar navbar-dark bg-primary">
-  <span class="navbar-brand" style="color: #fff; height: 40px;">
-    <button id="backButton" type="button" onclick="window.history.back()" class="btn btn-primary"><</button>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0"> <%= pageTitle %> </a>
+    <button id="backButton" type="button" onclick="window.history.back()" class="btn btn-primary" style="margin-right: 30px"><i class="fas fa-chevron-left"></i></button>
     <script>if(window.location.href == 'http://localhost:3000/') jQuery('#backButton').hide();</script>
-    <%= pageTitle %>
-  </span>
 </nav>
