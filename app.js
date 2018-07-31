@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.set('view engine', 'ejs');
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/css', express.static(__dirname + '/views/css'));
 app.use('/js', express.static(__dirname + '/node_modules/tether/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
 
