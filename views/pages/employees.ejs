@@ -1,0 +1,133 @@
+<% include ../partials/header %>
+
+<div class="" style="margin-left: 30px; margin-right: 30px">
+  <div class="col s12">
+    <button type="button" class="btn btn-success btn-lg" style="margin-top: 10px" data-toggle="modal" data-target="#addEmployeeForm">Add new employee</button>
+  </div>
+</div>
+<br>
+
+<div class="" style="margin-left: 30px; margin-right: 30px">
+  <div class="col s12">
+    <% if (items.length > 0) { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 1%; text-align: center">EmployeeID</th>
+          <th style="width: 49%">Name</th>
+          <th style="width: 30%">CurrentPosition</th>
+          <th solspan="2" style="width: 20%; text-align: center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach (function(item, index) { %>
+        <tr>
+          <td style="width: 1%; text-align: center"><%= item.EmployeeID %></td>
+          <td style="width: 49%"><%= item.Name %></td>
+          <td style="width: 30%"><%= item.CurrentPosition %></td>
+          <td solspan="2" style="width: 20%; text-align: center">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editEmployeeForm">Edit</button>
+            <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
+            <a href="/manager/employees/delete/<%= item.EmployeeID %>" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <p><strong>There is no data available.</strong></p>
+    <% } %>
+  </div>
+</div>
+
+<!-- add employee form modal -->
+<div>
+  <div class="modal fade" id="addEmployeeForm" tabindex="-1" role="dialog" aria-labelledby="addEmployeeFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        <form method="post" action="/manager/employees/add">
+          <div class="modal-header">
+            <h4 class="modal-title" id="addEmployeeFormLabel">Add employee</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+              <div class="">
+                  <label for="employeeId" class="col-2 col-form-label"><b>Id</b></label>
+                  <div class="col-10">
+                    <input type="number" name="employeeId" value="" class="form-control">
+                  </div>
+                </div>
+                
+                <div class="">
+                  <label for="employeeName" class="col-2 col-form-label"><b>Name</b></label>
+                  <div class="col-10">
+                    <input type="text" name="employeeName" value="" class="form-control">
+                  </div>
+                </div>
+                
+                <div class="">
+                  <label for="employeePosition" class="col-2 col-form-label"><b>Employee's position</b></label>
+                  <div class="col-10">
+                    <input type="text" name="employeePosition" value="" class="form-control">
+                  </div>
+                </div>
+              
+                
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- edit employee form modal -->
+<div>
+  <div class="modal fade" id="editEmployeeForm" tabindex="-1" role="dialog" aria-labelledby="editEmployeeFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        <form method="post" action="/manager/employees/edit">
+          <div class="modal-header">
+            <h4 class="modal-title" id="editEmployeeFormLabel">Edit employee</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+              <div class="">
+                  <label for="employeeId" class="col-2 col-form-label"><b>Id</b></label>
+                  <div class="col-10">
+                    <input type="number" name="employeeId" value="" class="form-control">
+                  </div>
+                </div>
+                
+                <div class="">
+                  <label for="employeeName" class="col-2 col-form-label"><b>Name</b></label>
+                  <div class="col-10">
+                    <input type="text" name="employeeName" value="" class="form-control">
+                  </div>
+                </div>
+                
+                <div class="">
+                  <label for="employeePosition" class="col-2 col-form-label"><b>Employee's position</b></label>
+                  <div class="col-10">
+                    <input type="text" name="employeePosition" value="" class="form-control">
+                  </div>
+                </div>
+              
+                
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../partials/footer %>

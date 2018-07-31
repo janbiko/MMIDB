@@ -1,0 +1,13 @@
+<% include ../partials/header %>
+
+<div class="" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <% if (items.length > 0) { %>
+      <% items.forEach (function(item, index) { %>
+        <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success" style="font-size: 35"><%= item.Name %></a>
+        <% }); %>
+        <% } else { %>
+          <p><strong>There is no data available.</strong></p>
+    <% } %>
+</div>
+
+<% include ../partials/footer %>

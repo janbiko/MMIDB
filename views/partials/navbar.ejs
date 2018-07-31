@@ -1,0 +1,7 @@
+<nav class="navbar navbar-dark bg-primary">
+  <span class="navbar-brand" style="color: #fff; height: 40px;">
+    <button id="backButton" type="button" onclick="window.history.back()" class="btn btn-primary"><</button>
+    <script>if(window.location.href == 'http://localhost:3000/') jQuery('#backButton').hide();</script>
+    <%= pageTitle %>
+  </span>
+</nav>
