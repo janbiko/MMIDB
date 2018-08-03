@@ -123,6 +123,42 @@ app.get('/manager/employees/delete/:employee_id', function(req, res) {
   
 });
 
+app.get('/manager/tasks', function(req, res) {
+
+  con.query("SELECT t.TaskID, t.Status, t.DeliveryTime, t.PickupAddress, t.DestinationAddress, e.Name " + 
+  "FROM Tasks t LEFT JOIN Employees e ON e.EmployeeID = t.EmployeeID", function(err, result) {
+    res.render('pages/tasks', {
+      siteTitle: siteTitle,
+      pageTitle: "Kuriermanagement",
+      items: result
+    });
+  });
+});
+
+// add task to database
+app.post('/manager/tasks/add', function(req, res) {
+
+  let query = "INSERT INTO Tasks (Status, DeliveryTime, PickupAddress, DestinationAddress) VALUES ( '" +
+              "Open', '" + 
+              req.body.deliveryTime + "', '" + 
+              req.body.pickupAddress + "', '" + 
+              req.body.destinationAddress + "')";
+
+  con.query(query, function(err, result) {
+    res.redirect(baseURL + "manager/tasks");
+  });
+});
+
+// delete task from database
+app.get('/manager/tasks/delete/:task_id', function(req, res) {
+
+  let query = "DELETE FROM Tasks WHERE TaskID = " + req.params.task_id;
+
+  con.query(query, function(err, result) {
+    if(result.affectedRows) res.redirect(baseURL + "manager/tasks");
+  });
+});
+
 app.get('/employee', function(req, res) {
 
   let query = "SELECT EmployeeID, Name FROM Employees";
