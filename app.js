@@ -149,6 +149,36 @@ app.post('/manager/tasks/add', function(req, res) {
   });
 });
 
+// edit task in database
+app.post('/manager/tasks/edit/:task_id', function(req, res) {
+  let query = "UPDATE Tasks SET " + 
+              "DeliveryTime = '" + req.body.deliveryTime + "', " +
+              "PickupAddress = '" + req.body.pickupAddress + "', " +
+              "DestinationAddress = '" + req.body.destinationAddress + "' " +
+              "WHERE TaskID = " + req.body.taskId;
+
+  console.log(query);
+
+  con.query(query, function(err, result) {
+    if(result.affectedRows) res.redirect(baseURL + "manager/tasks");
+  });
+});
+
+
+// updating employee data
+app.post('/manager/employees/edit/:employee_id', function(req, res) {
+  
+  let query = "UPDATE Employees SET " +
+              "Name = '" + req.body.employeeName + "', " +
+              "CurrentPosition = '" + req.body.employeePosition + "' " +
+              "WHERE Employees.EmployeeID = " + req.body.employeeId;
+  
+  con.query(query, function(err, result) {
+    if(result.affectedRows) res.redirect(baseURL + "manager/employees");
+  });
+});
+
+
 // delete task from database
 app.get('/manager/tasks/delete/:task_id', function(req, res) {
 

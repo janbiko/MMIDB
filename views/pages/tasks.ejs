@@ -52,7 +52,8 @@
                           <%= item.Status %>
                         </td>
                         <td style="width: 20%">
-                          <%= item.DeliveryTime %>
+                          <%= [item.DeliveryTime.getDate(), item.DeliveryTime.getMonth()+1, item.DeliveryTime.getFullYear()].join('.') + ' - ' %>
+                          <%= item.DeliveryTime.getHours() + ":" + item.DeliveryTime.getMinutes() %>
                         </td>
                         <td style="width: 15%">
                           <%= item.PickupAddress %>
@@ -64,8 +65,9 @@
                           <%= item.Name %>
                         </td>
                         <td solspan="2" style="width: 20%; text-align: center">
-                          <button type="button" class="btn btn-outline-success edit-employee" data-toggle="modal" data-target="#editEmployeeForm"
-                          data-currentposition="<%= item.CurrentPosition %>" data-name="<%= item.Name %>" data-id="<%= item.EmployeeID %>">Edit</button>
+                          <button type="button" class="btn btn-outline-success edit-task" data-toggle="modal" data-target="#editTaskForm"
+                          data-deliverytime="<%= item.DeliveryTime %>" data-pickupaddress="<%= item.PickupAddress %>" 
+                          data-destinationaddress="<%= item.DestinationAddress %>" data-id="<%= item.TaskID %>">Edit</button>
                           <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
                           <a href="/manager/tasks/delete/<%= item.TaskID %>" class="btn btn-outline-danger">Delete</a>
                         </td>
@@ -133,7 +135,92 @@
                 </div>
               </div>
 
+              <!-- edit task form modal -->
+            <div>
+              <div class="modal fade" id="editTaskForm" tabindex="-1" role="dialog" aria-labelledby="editTaskFormLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+
+                    <form id="editFormId" method="post" action="/manager/tasks/edit/">
+                      <input type="hidden" id="editFormTaskID" name="taskId"/>
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="addTaskFormLabel">Edit task</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="">
+                          <label for="deliveryTime" class="col-2 col-form-label">
+                            <b>Delivery Time</b>
+                          </label>
+                          <div class="col-10">
+                            <input type="datetime-local" id="editFormDeliveryTime" name="deliveryTime" value="" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="">
+                          <label for="pickupAddress" class="col-2 col-form-label">
+                            <b>Pickup Address</b>
+                          </label>
+                          <div class="col-10">
+                            <input type="text" id="editFormPickupAddress" name="pickupAddress" value="" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="">
+                          <label for="destinationAddress" class="col-2 col-form-label">
+                            <b>Destination Address</b>
+                          </label>
+                          <div class="col-10">
+                            <input type="text" id="editFormDestinationAddress" name="destinationAddress" value="" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                          <button type="submit" name="submit" class="btn btn-outline-success">Save changes</button>
+                        </div>
+                    </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             
+              <script>
+                $(document).ready(function() {
+                  let editPostAction = $('#editFormId').attr('action');
+  
+                  $('.edit-task').on('click', function() {
+                    $('#editFormDeliveryTime').val(getStructuredDate($(this).data('deliverytime')));  //val(new Date($(this).data('deliverytime')));     //val($(this).data('deliverytime'));
+                    $('#editFormPickupAddress').val($(this).data('pickupaddress'));
+                    $('#editFormDestinationAddress').val($(this).data('destinationaddress'));
+                    $('#editFormTaskID').val($(this).data('id'));
+                    
+                    $('#editFormId').attr('action', editPostAction + $(this).data('id'));
+                  });
+                  
+                  function getStructuredDate(dateTime) {
+                    let date = new Date(dateTime),
+                        day = '' + date.getDate(),
+                        month = '' + (date.getMonth() + 1),
+                        year = '' + date.getFullYear(),
+                        hours = '' + date.getHours(),
+                        minutes = '' + date.getMinutes();
+                    
+                    if(month.length < 2) month = '0' + month;
+                    if(day.length < 2) day = '0' + day;
+                    if(hours.length < 2) hours = '0' + hours;
+                    if(minutes.length < 2) minutes = '0' + minutes; 
+                    
+                    return [year, month, day].join('-') + 'T' + hours + ':' + minutes;
+                  }
+                });
+              
+              </script>
+
           </main>
 
           <% include ../partials/footer %>
