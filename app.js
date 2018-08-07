@@ -171,6 +171,18 @@ app.get('/employee', function(req, res) {
   });
 });
 
+app.get('/employee/:employee_id/tasks', function(req, res) {
+
+  con.query("SELECT t.TaskID, t.Status, t.DeliveryTime, t.PickupAddress, t.DestinationAddress, e.Name, t.EmployeeID " + 
+  "FROM Tasks t LEFT JOIN Employees e ON e.EmployeeID = t.EmployeeID", function(err, result) {
+    res.render('pages/task-overview', {
+      siteTitle: siteTitle,
+      pageTitle: "Kuriermanagement",
+      items: result,
+    });
+  });
+});
+
 // starting server
 let server = app.listen(3000, function() {
   console.log("Server started on port 3000...");
