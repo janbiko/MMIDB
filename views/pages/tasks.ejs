@@ -27,7 +27,9 @@
               <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addTaskForm">Add new task</button>
             </div>
             <br>
-
+            
+            <!-- Outstanding Tasks -->
+            <h4 class="h5">Outstanding Tasks</h4>
             <div class="col">
               <% if (items.length > 0) { %>
                 <table class="table">
@@ -44,34 +46,90 @@
                   </thead>
                   <tbody>
                     <% items.forEach (function(item, index) { %>
-                      <tr>
-                        <td style="width: 1%; text-align: center">
-                          <%= item.TaskID %>
-                        </td>
-                        <td style="width: 14%">
-                          <%= item.Status %>
-                        </td>
-                        <td style="width: 20%">
-                          <%= item.DeliveryTime %>
-                        </td>
-                        <td style="width: 15%">
-                          <%= item.PickupAddress %>
-                        </td>
-                        <td style="width: 15%">
-                          <%= item.DestinationAddress %>
-                        </td>
-                        <td style="width: 15%">
-                          <%= item.Name %>
-                        </td>
-                        <td solspan="2" style="width: 20%; text-align: center">
-                          <button type="button" class="btn btn-outline-success edit-task" data-toggle="modal" data-target="#editTaskForm"
-                          data-deliverytime="<%= item.DeliveryTime %>" data-pickupaddress="<%= item.PickupAddress %>" 
-                          data-destinationaddress="<%= item.DestinationAddress %>" data-id="<%= item.TaskID %>">Edit</button>
-                          <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
-                          <a href="/manager/tasks/delete/<%= item.TaskID %>" class="btn btn-outline-danger">Delete</a>
-                        </td>
-                      </tr>
-                      <% }); %>
+                      <% if (item.Status == "Open" || item.Status == "Assigned") { %>
+                        <tr>
+                          <td style="width: 1%; text-align: center">
+                            <%= item.TaskID %>
+                          </td>
+                          <td style="width: 14%">
+                            <%= item.Status %>
+                          </td>
+                          <td style="width: 20%">
+                            <%= item.DeliveryTime %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.PickupAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.DestinationAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.Name %>
+                          </td>
+                          <td solspan="2" style="width: 20%; text-align: center">
+                            <button type="button" class="btn btn-outline-success edit-task" data-toggle="modal" data-target="#editTaskForm"
+                            data-deliverytime="<%= item.DeliveryTime %>" data-pickupaddress="<%= item.PickupAddress %>" 
+                            data-destinationaddress="<%= item.DestinationAddress %>" data-id="<%= item.TaskID %>">Edit</button>
+                            <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
+                            <a href="/manager/tasks/delete/<%= item.TaskID %>" class="btn btn-outline-danger">Delete</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }); %>
+                  </tbody>
+                </table>
+                <% } else { %>
+                  <p>
+                    <strong>There is no data available.</strong>
+                  </p>
+                  <% } %>
+            </div>
+
+            <!-- Finished Tasks -->
+            <h4 class="h5">Finished Tasks</h4>
+            <div class="col">
+              <% if (items.length > 0) { %>
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th style="width: 1%; text-align: center">TaskID</th>
+                      <th style="width: 14%">Status</th>
+                      <th style="width: 20%">DeliveryTime</th>
+                      <th style="width: 15%">PickupAddress</th>
+                      <th style="width: 15%">DestinationAddress</th>
+                      <th style="width: 15%">Employee</th>
+                      <th solspan="2" style="width: 20%; text-align: center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% items.forEach (function(item, index) { %>
+                      <% if (item.Status == "Done") { %>
+                        <tr>
+                          <td style="width: 1%; text-align: center">
+                            <%= item.TaskID %>
+                          </td>
+                          <td style="width: 14%">
+                            <%= item.Status %>
+                          </td>
+                          <td style="width: 20%">
+                            <%= item.DeliveryTime %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.PickupAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.DestinationAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.Name %>
+                          </td>
+                          <td solspan="1" style="width: 20%; text-align: center">
+                            <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
+                            <a href="/manager/tasks/delete/<%= item.TaskID %>" class="btn btn-outline-danger">Delete</a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% }); %>
                   </tbody>
                 </table>
                 <% } else { %>
