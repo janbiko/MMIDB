@@ -23,7 +23,7 @@
             </div>
 
             <div class="row" style="margin-left: 30px; margin-right: 30px">
-              <form action="http://localhost:3000/manager/employees/edit/<%= item[0].EmployeeID %>" method="post" class="col s12">
+              <form action="http://localhost:3000/employee/edit/<%= items.EmployeeID %>" method="post" class="col s12">
                 <!--<input type="hidden" name="employeeId" value="">-->
 
 
@@ -32,7 +32,7 @@
                     <b>Id</b>
                   </label>
                   <div class="col-10">
-                    <input type="number" name="employeeId" value="<%= item[0].EmployeeID %>" class="form-control">
+                    <input type="number" name="employeeId" value="<%= items[0].EmployeeID %>" class="form-control">
                   </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <b>Name</b>
                   </label>
                   <div class="col-10">
-                    <input type="text" name="employeeName" value="<%= item[0].Name %>" class="form-control">
+                    <input type="text" name="employeeName" value="<%= items[0].Name %>" class="form-control">
                   </div>
                 </div>
 
@@ -50,7 +50,7 @@
                     <b>Employee's position</b>
                   </label>
                   <div class="col-10">
-                    <input type="text" name="employeePosition" value="<%= item[0].CurrentPosition %>" class="form-control">
+                    <input type="text" name="employeePosition" value="<%= items[0].CurrentPosition %>" class="form-control">
                   </div>
                 </div>
 

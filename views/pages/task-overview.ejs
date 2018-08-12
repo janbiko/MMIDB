@@ -23,7 +23,7 @@
             <!-- Active Task -->
             <h4 class="h5">Active Task</h4>
             <div class="col">
-              <% if (items.length > 0) { %>
+              <% if (items) { %>
                 <table class="table">
                   <thead class="thead-light">
                     <tr>
@@ -38,8 +38,7 @@
                   </thead>
                   <tbody>
                     <% items.forEach (function(item, index) { %>
-                      <!-- hier muss die item.EmployeeID mit der aus der URL(vorher angeklickter Employee) verglichen werden -->
-                      <% if(item.Status == "Assigned") {%>
+                      <% if(item.Status == "Assigned" && item.EmployeeID == id) { %>
                         <tr>
                           <td style="width: 1%; text-align: center">
                             <%= item.TaskID %>
@@ -60,7 +59,9 @@
                             <%= item.Name %>
                           </td>
                           <td solspan="2" style="width: 20%; text-align: center">
-                            <a href="/manager/tasks/delete/<%= item.TaskID %>" class="btn btn-outline-danger">Finished</a>
+                            <form action="/employee/<%= id %>/tasks/done/<%= item.TaskID %>/<%= item.DestinationAddress %>" method="post">
+                              <input class="btn btn-success" type="submit" name="done" value="Done" />
+                            </form>
                           </td>
                         </tr>
                         <% } %>
@@ -113,113 +114,9 @@
                             <%= item.Name %>
                           </td>
                           <td solspan="2" style="width: 20%; text-align: center">
-                            <button type="button" class="btn btn-outline-success edit-employee" data-toggle="modal" data-target="#editEmployeeForm" data-currentposition="<%= item.CurrentPosition %>"
-                              data-name="<%= item.Name %>" data-id="<%= item.EmployeeID %>">Accept</button>
-                            <!-- <a href="/manager/employees/edit/<%= item.EmployeeID %>" class="btn btn-success">Edit</a> -->
-                          </td>
-                        </tr>
-                        <% } %>
-                          <% }); %>
-                  </tbody>
-                </table>
-                <% } else { %>
-                  <p>
-                    <strong>There is no data available.</strong>
-                  </p>
-                  <% } %>
-            </div>
-
-            <!-- Assigned Tasks -->
-            <h4 class="h5">Assigned Tasks</h4>
-            <div class="col">
-              <% if (items.length > 0) { %>
-                <table class="table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 1%; text-align: center">TaskID</th>
-                      <th style="width: 14%">Status</th>
-                      <th style="width: 20%">DeliveryTime</th>
-                      <th style="width: 15%">PickupAddress</th>
-                      <th style="width: 15%">DestinationAddress</th>
-                      <th style="width: 15%">Employee</th>
-                      <th solspan="2" style="width: 20%; text-align: center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% items.forEach (function(item, index) { %>
-                      <% if(item.Status == "Assigned") {%>
-                        <tr>
-                          <td style="width: 1%; text-align: center">
-                            <%= item.TaskID %>
-                          </td>
-                          <td style="width: 14%">
-                            <%= item.Status %>
-                          </td>
-                          <td style="width: 20%">
-                            <%= item.DeliveryTime %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.PickupAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.DestinationAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.Name %>
-                          </td>
-                          <td solspan="2" style="width: 20%; text-align: center">
-                          </td>
-                        </tr>
-                        <% } %>
-                          <% }); %>
-                  </tbody>
-                </table>
-                <% } else { %>
-                  <p>
-                    <strong>There is no data available.</strong>
-                  </p>
-                  <% } %>
-            </div>
-
-            <!-- Finished Tasks -->
-            <h4 class="h5">Finished Tasks</h4>
-            <div class="col">
-              <% if (items.length > 0) { %>
-                <table class="table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 1%; text-align: center">TaskID</th>
-                      <th style="width: 14%">Status</th>
-                      <th style="width: 20%">DeliveryTime</th>
-                      <th style="width: 15%">PickupAddress</th>
-                      <th style="width: 15%">DestinationAddress</th>
-                      <th style="width: 15%">Employee</th>
-                      <th solspan="2" style="width: 20%; text-align: center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% items.forEach (function(item, index) { %>
-                      <% if(item.Status == "Finished") {%>
-                        <tr>
-                          <td style="width: 1%; text-align: center">
-                            <%= item.TaskID %>
-                          </td>
-                          <td style="width: 14%">
-                            <%= item.Status %>
-                          </td>
-                          <td style="width: 20%">
-                            <%= item.DeliveryTime %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.PickupAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.DestinationAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.Name %>
-                          </td>
-                          <td solspan="2" style="width: 20%; text-align: center">
+                            <form action="/employee/<%= id %>/tasks/accept/<%= item.TaskID %>" method="post">
+                              <input class="btn btn-success" type="submit" name="accept" value="Accept" />
+                            </form>
                           </td>
                         </tr>
                         <% } %>
