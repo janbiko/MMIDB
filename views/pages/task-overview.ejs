@@ -130,6 +130,55 @@
                   <% } %>
             </div>
 
+            <!-- Finished Tasks -->
+            <h4 class="h5">Finished Tasks</h4>
+            <div class="col">
+              <% if (items) { %>
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th style="width: 1%; text-align: center">TaskID</th>
+                      <th style="width: 14%">Status</th>
+                      <th style="width: 20%">DeliveryTime</th>
+                      <th style="width: 25%">PickupAddress</th>
+                      <th style="width: 25%">DestinationAddress</th>
+                      <th style="width: 15%">Employee</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% items.forEach (function(item, index) { %>
+                      <% if(item.Status == "Done" && item.EmployeeID == id) { %>
+                        <tr>
+                          <td style="width: 1%; text-align: center">
+                            <%= item.TaskID %>
+                          </td>
+                          <td style="width: 14%">
+                            <%= item.Status %>
+                          </td>
+                          <td style="width: 20%">
+                            <%= item.DeliveryTime %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.PickupAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.DestinationAddress %>
+                          </td>
+                          <td style="width: 15%">
+                            <%= item.Name %>
+                          </td>
+                        </tr>
+                        <% } %>
+                          <% }); %>
+                  </tbody>
+                </table>
+                <% } else { %>
+                  <p>
+                    <strong>There is no data available.</strong>
+                  </p>
+                  <% } %>
+            </div>
+
             <!-- add task form modal -->
             <div>
               <div class="modal fade" id="addTaskForm" tabindex="-1" role="dialog" aria-labelledby="addTaskFormLabel">
