@@ -164,21 +164,6 @@ app.post('/manager/tasks/edit/:task_id', function(req, res) {
   });
 });
 
-
-// updating employee data
-app.post('/manager/employees/edit/:employee_id', function(req, res) {
-  
-  let query = "UPDATE Employees SET " +
-              "Name = '" + req.body.employeeName + "', " +
-              "CurrentPosition = '" + req.body.employeePosition + "' " +
-              "WHERE Employees.EmployeeID = " + req.body.employeeId;
-  
-  con.query(query, function(err, result) {
-    if(result.affectedRows) res.redirect(baseURL + "manager/employees");
-  });
-});
-
-
 // delete task from database
 app.get('/manager/tasks/delete/:task_id', function (req, res) {
 
@@ -222,6 +207,48 @@ app.post('/employee/:employee_id/tasks/accept/:task_id', function (req, res) {
     if (result.affectedRows) res.redirect(baseURL + "employee/" + req.params.employee_id + "/tasks");
   });
 });
+
+app.post('/employee/:employee_id/tasks/accept_task', function(req, res) {
+  let employeePos = "";
+  let taskAddresses = new Array();
+  let queryEmployeePosition = "SELECT CurrentPosition FROM Employees WHERE EmployeeID = " + req.params.employee_id;
+  let queryOpenTasks = "SELECT TaskID, PickupAddress FROM Tasks WHERE Status = 'Open'";
+
+  con.query(queryEmployeePosition, function(err, result) {
+    employeePos = result[0].CurrentPosition;
+    
+    con.query(queryOpenTasks, function(err, result) {
+      for(let i = 0; i < result.length; i++) {
+        let address = {addressId: result[i].TaskID, address: result[i].PickupAddress};
+        taskAddresses.push(address);
+      }
+      let closestTaskId = getClosestTaskId(employeePos, taskAddresses);
+      let queryAssignTask = "UPDATE Tasks SET Status = 'Assigned', EmployeeID = " + req.params.employee_id +
+                            " WHERE TaskID = " + closestTaskId;
+      
+      con.query(queryAssignTask, function(err, result) {
+        if (result.affectedRows) res.redirect(baseURL + "employee/" + req.params.employee_id + "/tasks");
+      });
+    });
+  });
+});
+
+function getClosestTaskId(empPos, addrs) {
+  empPos = empPos.match(/\d+/g).map(Number);
+  let shortestDistance = Number.POSITIVE_INFINITY;
+  let shortestAddrId;
+
+  for (let i = 0; i < addrs.length; i++) {
+    let address = {addressId: addrs[i].addressId, address: addrs[i].address.match(/\d+/g).map(Number)};
+    let distance = Math.abs(empPos[0] - address.address[0]) + Math.abs(empPos[1] - address.address[1]);
+
+    if (distance < shortestDistance) {
+      shortestDistance = distance;
+      shortestAddrId = address.addressId;
+    }
+  }
+  return shortestAddrId;
+}
 
 app.post('/employee/:employee_id/tasks/done/:task_id/:destinationAddress', function (req, res) {
   let query1 = "UPDATE Tasks SET Status = 'Done', EmployeeID = '" + req.params.employee_id + "' WHERE TaskID = '" + req.params.task_id + "';"
