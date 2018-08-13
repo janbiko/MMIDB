@@ -244,7 +244,9 @@
 
                   if (tableSize > 0) {
                     $('#activeTaskTable').removeAttr('hidden');
-                    $('#noActiveTask').attr('hidden', true);
+                    console.log($('#noActiveTask'));
+                    $('#noActiveTask').hide();
+                    console.log($('#noActiveTask'));
                   }
                 });
               </script>

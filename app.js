@@ -27,6 +27,7 @@ const con = mysql.createConnection({
 });
 
 const siteTitle = "MMIDB Project";
+const pageTitle = "Courier Management";
 const baseURL = "http://localhost:3000/";
 
 
@@ -35,7 +36,7 @@ app.get('/', function (req, res) {
 
   res.render('pages/index', {
     siteTitle: siteTitle,
-    pageTitle: "Kuriermanagement"
+    pageTitle: pageTitle
   });
 });
 
@@ -44,7 +45,7 @@ app.get('/manager', function (req, res) {
 
   res.render('pages/manager', {
     siteTitle: siteTitle,
-    pageTitle: "Kuriermanagement"
+    pageTitle: pageTitle
   });
 });
 
@@ -54,7 +55,7 @@ app.get('/manager/employees', function (req, res) {
   con.query("SELECT * FROM Employees", function (err, result) {
     res.render('pages/employees', {
       siteTitle: siteTitle,
-      pageTitle: "Kuriermanagement",
+      pageTitle: pageTitle,
       items: result
     });
   });
@@ -84,7 +85,7 @@ app.post('/manager/employees/add', function (req, res) {
   });
 });
 
-
+/* ALT
 // getting edit employee page
 app.get('/manager/employees/edit/:employee_id', function (req, res) {
 
@@ -95,7 +96,7 @@ app.get('/manager/employees/edit/:employee_id', function (req, res) {
       item: result
     });
   });
-});
+}); */
 
 
 // updating employee data
@@ -129,7 +130,7 @@ app.get('/manager/tasks', function (req, res) {
     "FROM Tasks t LEFT JOIN Employees e ON e.EmployeeID = t.EmployeeID", function (err, result) {
       res.render('pages/tasks', {
         siteTitle: siteTitle,
-        pageTitle: "Kuriermanagement",
+        pageTitle: pageTitle,
         items: result
       });
     });
@@ -180,7 +181,7 @@ app.get('/employee', function (req, res) {
   con.query(query, function (err, result) {
     res.render('pages/employee', {
       siteTitle: siteTitle,
-      pageTitle: "Kuriermanagement",
+      pageTitle: pageTitle,
       items: result
     });
   });
@@ -192,7 +193,7 @@ app.get('/employee/:employee_id/tasks', function (req, res) {
     "FROM Tasks t LEFT JOIN Employees e ON e.EmployeeID = t.EmployeeID", function (err, result) {
       res.render('pages/task-overview', {
         siteTitle: siteTitle,
-        pageTitle: "Kuriermanagement",
+        pageTitle: pageTitle,
         items: result,
         id: req.params.employee_id,
       });

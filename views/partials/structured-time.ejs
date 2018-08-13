@@ -1,2 +1,2 @@
 <%= [item.DeliveryTime.getDate(), item.DeliveryTime.getMonth()+1, item.DeliveryTime.getFullYear()].join('.') + ' - ' %>
-<%= item.DeliveryTime.getHours() + ":" + item.DeliveryTime.getMinutes() %>
+<%= item.DeliveryTime.getMinutes() > 9 ? item.DeliveryTime.getHours() + ':' + item.DeliveryTime.getMinutes() : item.DeliveryTime.getHours() + ':0' + item.DeliveryTime.getMinutes() %>
