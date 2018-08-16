@@ -1,14 +1,10 @@
 "use strict";
 
 const express = require('express'),
-  http = require('http'),
   mysql = require('mysql'),
-  bodyParser = require('body-parser'),
-  dateFormat = require('dateformat');
+  bodyParser = require('body-parser');
 
 const app = express();
-
-let now = new Date();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -125,17 +121,15 @@ app.post('/manager/tasks/add', function (req, res) {
 });
 
 // edit task in database
-app.post('/manager/tasks/edit/:task_id', function(req, res) {
-  let query = "UPDATE Tasks SET " + 
-              "DeliveryTime = '" + req.body.deliveryTime + "', " +
-              "PickupAddress = '" + req.body.pickupAddress + "', " +
-              "DestinationAddress = '" + req.body.destinationAddress + "' " +
-              "WHERE TaskID = " + req.body.taskId;
+app.post('/manager/tasks/edit/:task_id', function (req, res) {
+  let query = "UPDATE Tasks SET " +
+    "DeliveryTime = '" + req.body.deliveryTime + "', " +
+    "PickupAddress = '" + req.body.pickupAddress + "', " +
+    "DestinationAddress = '" + req.body.destinationAddress + "' " +
+    "WHERE TaskID = " + req.body.taskId;
 
-  console.log(query);
-
-  con.query(query, function(err, result) {
-    if(result.affectedRows) res.redirect(baseURL + "manager/tasks");
+  con.query(query, function (err, result) {
+    if (result.affectedRows) res.redirect(baseURL + "manager/tasks");
   });
 });
 
@@ -183,25 +177,25 @@ app.post('/employee/:employee_id/tasks/accept/:task_id', function (req, res) {
   });
 });
 
-app.post('/employee/:employee_id/tasks/accept_task', function(req, res) {
+app.post('/employee/:employee_id/tasks/accept_task', function (req, res) {
   let employeePos = "";
   let taskAddresses = new Array();
   let queryEmployeePosition = "SELECT CurrentPosition FROM Employees WHERE EmployeeID = " + req.params.employee_id;
   let queryOpenTasks = "SELECT TaskID, PickupAddress FROM Tasks WHERE Status = 'Open'";
 
-  con.query(queryEmployeePosition, function(err, result) {
+  con.query(queryEmployeePosition, function (err, result) {
     employeePos = result[0].CurrentPosition;
-    
-    con.query(queryOpenTasks, function(err, result) {
-      for(let i = 0; i < result.length; i++) {
-        let address = {addressId: result[i].TaskID, address: result[i].PickupAddress};
+
+    con.query(queryOpenTasks, function (err, result) {
+      for (let i = 0; i < result.length; i++) {
+        let address = { addressId: result[i].TaskID, address: result[i].PickupAddress };
         taskAddresses.push(address);
       }
       let closestTaskId = getClosestTaskId(employeePos, taskAddresses);
       let queryAssignTask = "UPDATE Tasks SET Status = 'Assigned', EmployeeID = " + req.params.employee_id +
-                            " WHERE TaskID = " + closestTaskId;
-      
-      con.query(queryAssignTask, function(err, result) {
+        " WHERE TaskID = " + closestTaskId;
+
+      con.query(queryAssignTask, function (err, result) {
         if (result.affectedRows) res.redirect(baseURL + "employee/" + req.params.employee_id + "/tasks");
       });
     });
@@ -214,7 +208,7 @@ function getClosestTaskId(empPos, addrs) {
   let shortestAddrId;
 
   for (let i = 0; i < addrs.length; i++) {
-    let address = {addressId: addrs[i].addressId, address: addrs[i].address.match(/\d+/g).map(Number)};
+    let address = { addressId: addrs[i].addressId, address: addrs[i].address.match(/\d+/g).map(Number) };
     let distance = Math.abs(empPos[0] - address.address[0]) + Math.abs(empPos[1] - address.address[1]);
 
     if (distance < shortestDistance) {
@@ -227,9 +221,9 @@ function getClosestTaskId(empPos, addrs) {
 
 app.post('/employee/:employee_id/tasks/done/:task_id/:destinationAddress', function (req, res) {
   let query1 = "UPDATE Tasks SET Status = 'Done', EmployeeID = '" + req.params.employee_id + "' WHERE TaskID = '" + req.params.task_id + "';"
-  let query2 = "UPDATE Employees SET CurrentPosition = '" + req.params.destinationAddress +"' WHERE EmployeeID = '" + req.params.employee_id + "';"
-  
-  
+  let query2 = "UPDATE Employees SET CurrentPosition = '" + req.params.destinationAddress + "' WHERE EmployeeID = '" + req.params.employee_id + "';"
+
+
   con.beginTransaction(function (err) {
     if (err) { throw err; }
     con.query(query1, function (err, result) {

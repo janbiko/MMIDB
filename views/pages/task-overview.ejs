@@ -78,61 +78,6 @@
                   <% } %>
             </div>
 
-            <!-- Open Tasks -->
-            <h4 class="h5">Open Tasks</h4>
-            <div class="col">
-              <% if (items.length > 0) { %>
-                <table class="table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 1%; text-align: center">TaskID</th>
-                      <th style="width: 14%">Status</th>
-                      <th style="width: 20%">DeliveryTime</th>
-                      <th style="width: 15%">PickupAddress</th>
-                      <th style="width: 15%">DestinationAddress</th>
-                      <th style="width: 15%">Employee</th>
-                      <th solspan="2" style="width: 20%; text-align: center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% items.forEach (function(item, index) { %>
-                      <% if(item.Status == "Open") {%>
-                        <tr>
-                          <td style="width: 1%; text-align: center">
-                            <%= item.TaskID %>
-                          </td>
-                          <td style="width: 14%">
-                            <%= item.Status %>
-                          </td>
-                          <td style="width: 20%">
-                            <% include ../partials/structured-time %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.PickupAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.DestinationAddress %>
-                          </td>
-                          <td style="width: 15%">
-                            <%= item.Name %>
-                          </td>
-                          <td solspan="2" style="width: 20%; text-align: center">
-                            <form action="/employee/<%= id %>/tasks/accept/<%= item.TaskID %>" method="post">
-                              <input class="btn btn-success" type="submit" name="accept" value="Accept" />
-                            </form>
-                          </td>
-                        </tr>
-                        <% } %>
-                          <% }); %>
-                  </tbody>
-                </table>
-                <% } else { %>
-                  <p>
-                    <strong>There is no data available.</strong>
-                  </p>
-                  <% } %>
-            </div>
-
             <!-- Finished Tasks -->
             <h4 class="h5">Finished Tasks</h4>
             <div class="col">
