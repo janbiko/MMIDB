@@ -61,18 +61,6 @@ app.get('/manager/employees', function (req, res) {
   });
 });
 
-/* ALT
-// getting add new employee page
-app.get('/manager/employees/add', function(req, res) {
-  
-  res.render('pages/add-employee', {
-      siteTitle: siteTitle,
-      pageTitle: "Kuriermanagement",
-      items: ''
-    });
-});
-*/
-
 // inserting values from form into database
 app.post('/manager/employees/add', function (req, res) {
 
@@ -84,20 +72,6 @@ app.post('/manager/employees/add', function (req, res) {
     res.redirect(baseURL + "manager/employees");
   });
 });
-
-/* ALT
-// getting edit employee page
-app.get('/manager/employees/edit/:employee_id', function (req, res) {
-
-  con.query("SELECT * FROM Employees WHERE EmployeeID = '" + req.params.employee_id + "'", function (err, result) {
-    res.render('pages/edit-employee', {
-      siteTitle: siteTitle,
-      pageTitle: "Editing employee: " + result[0].Name,
-      item: result
-    });
-  });
-}); */
-
 
 // updating employee data
 app.post('/manager/employees/edit/:employee_id', function (req, res) {
