@@ -23,8 +23,11 @@
             <!-- Active Task -->
             <h4 class="h5">Active Task</h4>
             <div class="col">
-              <% if (items) { %>
-                <table class="table">
+              <form hidden id="noActiveTask" action="/employee/<%= id %>/tasks/accept_task %>" method="post">
+                <input class="btn btn-success" type="submit" name="accept_task" value="Get new task." />
+              </form>
+              <% if (items.length > 0) { %>
+                <table id="activeTaskTable" hidden class="table">
                   <thead class="thead-light">
                     <tr>
                       <th style="width: 1%; text-align: center">TaskID</th>
@@ -64,8 +67,8 @@
                             </form>
                           </td>
                         </tr>
-                        <% } %>
-                          <% }); %>
+                      <% } %>
+                    <% }); %>
                   </tbody>
                 </table>
                 <% } else { %>
@@ -232,6 +235,17 @@
                 </div>
               </div>
 
+              <script>
+                $(document).ready(function() {
+                  var tableSize = $('#activeTaskTable tbody tr').length;
+
+                  if (tableSize > 0) {
+                    $('#activeTaskTable').removeAttr('hidden');
+                  } else {
+                    $('#noActiveTask').removeAttr('hidden');
+                  }
+                });
+              </script>
 
           </main>
 
